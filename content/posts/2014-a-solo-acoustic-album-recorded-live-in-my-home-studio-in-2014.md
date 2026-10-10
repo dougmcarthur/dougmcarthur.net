@@ -1,0 +1,6 @@
+---
+title: "2014: a solo acoustic album recorded live in my home studio in 2014"
+date: 2025-09-19
+slug: 2014-a-solo-acoustic-album-recorded-live-in-my-home-studio-in-2014
+---
+<p><span>I just released a free album on bandcamp! I was searching through my archives for something when I stumbled on this recording. It's a set of 8 original songs that I </span><span class="html-span xdj266r x14z9mp xat24cr x1lziwak xexx8yu xyri2b x18d9i69 x1c1uobl x1hl2dhg x16tdsg8 x1vvkbs"><a class="html-a xdj266r x14z9mp xat24cr x1lziwak xexx8yu xyri2b x18d9i69 x1c1uobl x1hl2dhg x16tdsg8 x1vvkbs" tabindex="-1"></a></span><span>played in my home studio back to back one day in 2014. Many of these songs would go on to be included in the self-titled Soapbox album released in 2015, but this recording represents the seeds of those album tracks. And then there's "Are We Lost", an improvised song that sounds like the prototype for the music of Hermit Phase, set to the lyrical theme of Lost Weekends. Enjoy! </span></p><div align="center">  <iframe style="border: 0; width: 400px; height: 406px;" src="https://bandcamp.com/EmbeddedPlayer/album=1824213965/size=large/bgcol=ffffff/linkcol=0687f5/artwork=small/transparent=true/" seamless><a href="https://dougmcarthurmusic.bandcamp.com/album/2014">2014 by Doug McArthur</a></iframe></div>
