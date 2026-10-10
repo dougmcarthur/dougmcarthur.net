@@ -1,0 +1,41 @@
+# Decap CMS configuration
+# Connected to Doug's GitHub repo. Cloudflare Pages builds from this site/ folder
+# with `python3 build.py` (build output directory: public/).
+backend:
+  name: github
+  repo: dougmcarthur/dougmcarthur.net
+  branch: main
+  # Self-hosted OAuth gateway (functions/api/auth.js) + GitHub OAuth App.
+  # NOTE: auth_endpoint must match the live site domain. Update to
+  # https://dougmcarthur.net/api/auth after the DNS cutover, and update the
+  # GitHub OAuth App's callback URL to match.
+  auth_endpoint: https://dougmcarthur-net-git.pages.dev/api/auth
+
+# Images uploaded in the editor land in public/assets/media and are served from /assets/media/
+media_folder: "public/assets/media"
+public_folder: "/assets/media"
+
+collections:
+  - name: "posts"
+    label: "Blog Posts"
+    folder: "content/posts"
+    create: true
+    slug: "{{slug}}"
+    summary: "{{title}} ({{date}})"
+    fields:
+      - { label: "Title", name: "title", widget: "string" }
+      - { label: "Publish Date", name: "date", widget: "datetime", format: "YYYY-MM-DD" }
+      - { label: "URL Slug", name: "slug", widget: "string", hint: "Lowercase, hyphens only. Becomes /your-slug/ on the site." }
+      - { label: "Body", name: "body", widget: "markdown", hint: "Markdown supported; raw HTML and iframes also work." }
+
+  - name: "pages"
+    label: "Pages"
+    folder: "content/pages"
+    create: false
+    slug: "{{fields.slug}}"
+    summary: "{{title}}"
+    # NOTE: Home (new-home) and News are generated/hand-built and not listed here.
+    fields:
+      - { label: "Title", name: "title", widget: "string" }
+      - { label: "URL Slug", name: "slug", widget: "string" }
+      - { label: "Body", name: "body", widget: "markdown" }

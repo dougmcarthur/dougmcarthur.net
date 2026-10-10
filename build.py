@@ -169,6 +169,7 @@ def fmt_date(d):
 def build():
     posts, pages = [], []
     shutil.copytree("assets", PUBLIC + "/assets", dirs_exist_ok=True)
+    shutil.copytree("admin_src", PUBLIC + "/admin", dirs_exist_ok=True)
     for fn in sorted(os.listdir(os.path.join(CONTENT, "posts"))):
         if fn.endswith(".md"):
             meta, body = parse_md(os.path.join(CONTENT, "posts", fn))
