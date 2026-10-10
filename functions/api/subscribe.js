@@ -37,7 +37,7 @@ export async function onRequestPost(context) {
     if (detail.includes("already")) {
       return Response.json({ ok: true, note: "already subscribed" });
     }
-    return Response.json({ error: "debug", bd_status: res.status, bd_body: data }, { status: 400 });
+    return Response.json({ error: "That email couldn't be subscribed." }, { status: 400 });
   }
   return Response.json({ error: "Signup failed — please try again later." }, { status: 502 });
 }
