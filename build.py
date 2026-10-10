@@ -4,7 +4,8 @@
 Usage (also the Pages build command):  python3 build.py
 Run from the site/ directory. Publish directory: public/
 """
-import os, re, html as htmlmod
+import os
+import shutil, re, html as htmlmod
 from datetime import datetime
 
 def esc_title(t):
@@ -167,6 +168,7 @@ def fmt_date(d):
 # ---------------------------------------------------------------------- build
 def build():
     posts, pages = [], []
+    shutil.copytree("assets", PUBLIC + "/assets", dirs_exist_ok=True)
     for fn in sorted(os.listdir(os.path.join(CONTENT, "posts"))):
         if fn.endswith(".md"):
             meta, body = parse_md(os.path.join(CONTENT, "posts", fn))
