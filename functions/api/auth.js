@@ -47,25 +47,38 @@ export async function onRequestGet({ request, env }) {
   }
 
   const token = tokenData && tokenData.access_token;
-  const payload = token
-    ? { token, provider: "github" }
-    : { error: (tokenData && tokenData.error_description) || "OAuth failed" };
 
   // Step 3: hand the result back to the Decap CMS popup opener.
+  // Decap's client requires a handshake: the popup must first post
+  // "authorizing:github", then Decap echoes it back, and only then does the
+  // popup deliver the "authorization:github:success:..." payload.
+  const resultMessage = token
+    ? "authorization:github:success:" + JSON.stringify({ token, provider: "github" })
+    : "authorization:github:error:" + JSON.stringify({
+        message: (tokenData && tokenData.error_description) || "OAuth failed",
+      });
   const html = `<!DOCTYPE html><html><head><meta charset="utf-8"><title>${
     token ? "Authorized" : "Authorization failed"
   }</title></head><body><script>
     (function () {
-      var message = ${JSON.stringify(
-        "authorization:github:" + (token ? "success:" : "error:") + JSON.stringify(payload)
+      var resultMessage = ${JSON.stringify(resultMessage)};
+      var doneMessage = ${JSON.stringify(
+        token ? "Authorized — you can close this window." : "Authorization failed."
       )};
-      if (window.opener) {
-        window.opener.postMessage(message, "*");
+      function receiveMessage(e) {
+        window.removeEventListener("message", receiveMessage, false);
+        // Decap echoed our handshake; deliver the result to its origin.
+        if (window.opener) {
+          window.opener.postMessage(resultMessage, e.origin);
+        }
+        document.body.textContent = doneMessage;
+        try { window.close(); } catch (err) {}
       }
-      document.body.textContent = ${JSON.stringify(
-        token ? "Authorized — you can close this window." : "Authorization failed: " + (payload.error || "")
-      )};
-      if (window.opener) { try { window.close(); } catch (e) {} }
+      window.addEventListener("message", receiveMessage, false);
+      // Start the handshake with the Decap CMS parent window.
+      if (window.opener) {
+        window.opener.postMessage("authorizing:github", "*");
+      }
     })();
   </script></body></html>`;
 
