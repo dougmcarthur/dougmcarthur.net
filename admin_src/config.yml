@@ -6,10 +6,13 @@ backend:
   repo: dougmcarthur/dougmcarthur.net
   branch: main
   # Self-hosted OAuth gateway (functions/api/auth.js) + GitHub OAuth App.
-  # NOTE: auth_endpoint must match the live site domain. Update to
-  # https://dougmcarthur.net/api/auth after the DNS cutover, and update the
+  # Decap builds the popup URL as {base_url}/{auth_endpoint}, so base_url must
+  # be our own origin (default is https://api.netlify.com, which 404s).
+  # NOTE: base_url must match the live site domain. Update to
+  # https://dougmcarthur.net after the DNS cutover, and update the
   # GitHub OAuth App's callback URL to match.
-  auth_endpoint: https://dougmcarthur-net-git.pages.dev/api/auth
+  base_url: https://dougmcarthur-net-git.pages.dev
+  auth_endpoint: api/auth
 
 # Images uploaded in the editor land in public/assets/media and are served from /assets/media/
 media_folder: "public/assets/media"
