@@ -22,6 +22,7 @@
 }
 
 *, *::before, *::after { box-sizing: border-box; }
+::selection { background: var(--accent-soft); color: var(--ink); }
 html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
 body {
   margin: 0;
@@ -32,12 +33,13 @@ body {
   line-height: 1.7;
   font-size: clamp(1rem, .95rem + .25vw, 1.0625rem);
 }
-h1, h2, h3, h4 { line-height: 1.25; letter-spacing: -.01em; margin: 0 0 .6em; font-weight: 600; }
+h1, h2, h3, h4 { line-height: 1.25; letter-spacing: -.01em; margin: 0 0 .6em; font-weight: 600; overflow-wrap: break-word; }
 h1 { font-size: clamp(1.9rem, 1.4rem + 2.5vw, 2.75rem); }
 h2 { font-size: clamp(1.4rem, 1.15rem + 1.25vw, 1.8rem); }
 h3 { font-size: clamp(1.1rem, 1rem + .5vw, 1.25rem); }
 p { margin: 0 0 1em; }
-img { max-width: 100%; height: auto; border-radius: var(--radius); }
+img { max-width: 100%; height: auto; }
+.entry img, .news-item img, .card img { border-radius: var(--radius); }
 a { color: var(--accent-dark); text-underline-offset: 3px; }
 a:hover { color: var(--accent); }
 
@@ -88,13 +90,13 @@ a:hover { color: var(--accent); }
 
 /* ---------- buttons ---------- */
 .btn {
-  display: inline-block; background: var(--accent); color: #fff; text-decoration: none;
+  display: inline-block; background: var(--accent-dark); color: #fff; text-decoration: none;
   padding: 11px 26px; border-radius: 999px; font-weight: 600; font-size: .98rem;
   border: none; cursor: pointer; font-family: var(--font);
   transition: background .18s ease, transform .18s ease, box-shadow .18s ease;
   box-shadow: var(--shadow-sm);
 }
-.btn:hover { background: var(--accent-dark); color: #fff; transform: translateY(-1px); box-shadow: var(--shadow-md); }
+.btn:hover { background: #3d695c; color: #fff; transform: translateY(-1px); box-shadow: var(--shadow-md); }
 .btn:active { transform: translateY(0); }
 .btn-outline { background: transparent; border: 2px solid #fff; box-shadow: none; }
 .btn-outline:hover { background: rgba(255,255,255,.14); }
@@ -168,7 +170,7 @@ article.post .entry h2 { font-size: 1.4rem; margin: 1.7em 0 .5em; line-height: 1
 article.post .entry h3 { font-size: 1.18rem; margin: 1.5em 0 .4em; line-height: 1.35; }
 article.post .entry iframe { width: 100%; border: 0; border-radius: var(--radius); display: block; margin: 1.5em 0; }
 article.post .entry iframe[src*="youtube"] { aspect-ratio: 16/9; height: auto; }
-article.post .entry img { max-width: 100%; height: auto; border-radius: var(--radius); }
+article.post .entry img { max-width: 100%; height: auto; }
 article.post .entry figure { margin: 1.5em 0; }
 article.page .entry { margin-top: 1em; }
 article.page .entry p { max-width: 68ch; }
