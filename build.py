@@ -20,6 +20,10 @@ PUBLIC = os.path.join(SITE, "public")
 # staging *.pages.dev domain never becomes the indexed copy.
 CANONICAL = "https://dougmcarthur.net"
 
+# Bump this whenever assets/css/style.css changes so browsers fetch the new
+# file instead of a stale cached copy.
+CSS_VERSION = "20261018c"
+
 NAV = [
     ("Home", "/"),
     ("News", "/news/"),
@@ -133,7 +137,7 @@ def base(title, body_html, active="/", desc="", path="/", og_type="website"):
 <title>{esc_title(title)} | Doug McArthur</title>
 {desc_tag}
 {seo_tags}
-<link rel="stylesheet" href="/assets/css/style.css">
+<link rel="stylesheet" href="/assets/css/style.css?v={CSS_VERSION}">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
