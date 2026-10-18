@@ -102,7 +102,7 @@ a:hover { color: var(--accent); }
 .btn-outline:hover { background: rgba(255,255,255,.14); }
 
 /* ---------- sections & cards ---------- */
-main.wrap { padding-top: clamp(28px, 5vw, 56px); padding-bottom: 24px; }
+main.wrap { padding-top: clamp(40px, 7vw, 72px); padding-bottom: 24px; }
 /* ---------- page titles: larger, with real breathing room ---------- */
 article.page > h1,
 main > h1 {
