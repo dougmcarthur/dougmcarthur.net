@@ -16,6 +16,10 @@ SITE = os.path.dirname(os.path.abspath(__file__))
 CONTENT = os.path.join(SITE, "content")
 PUBLIC = os.path.join(SITE, "public")
 
+# Canonical production origin. All canonical/OG/sitemap URLs use this so the
+# staging *.pages.dev domain never becomes the indexed copy.
+CANONICAL = "https://dougmcarthur.net"
+
 NAV = [
     ("Home", "/"),
     ("News", "/news/"),
@@ -109,8 +113,18 @@ def nav_html(active):
         items.append(f'<li><a href="{href}"{cls}>{label}</a></li>')
     return "<ul>" + "".join(items) + "</ul>"
 
-def base(title, body_html, active="/", desc=""):
+def base(title, body_html, active="/", desc="", path="/", og_type="website"):
     desc_tag = f'<meta name="description" content="{htmlmod.escape(desc[:160], quote=True)}">' if desc else ""
+    canon = CANONICAL + path
+    t_esc = htmlmod.escape(esc_title(title) + " | Doug McArthur", quote=True)
+    d_esc = htmlmod.escape(desc[:200], quote=True) if desc else ""
+    seo_tags = f"""<link rel="canonical" href="{canon}">
+<meta property="og:site_name" content="Doug McArthur">
+<meta property="og:type" content="{og_type}">
+<meta property="og:title" content="{t_esc}">
+<meta property="og:url" content="{canon}">"""
+    if d_esc:
+        seo_tags += f'\n<meta property="og:description" content="{d_esc}">'
     return f"""<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -118,6 +132,7 @@ def base(title, body_html, active="/", desc=""):
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>{esc_title(title)} | Doug McArthur</title>
 {desc_tag}
+{seo_tags}
 <link rel="stylesheet" href="/assets/css/style.css">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -165,11 +180,50 @@ def fmt_date(d):
     except Exception:
         return d
 
-# ---------------------------------------------------------------------- build
+# ------------------------------------------------- seo: sitemap, robots, redirects
+def write_seo_files(urls):
+    """urls: list of site paths like '/' or '/news/'. Writes sitemap.xml,
+    robots.txt, _redirects (301s for dead WordPress URL shapes + www->apex),
+    and a plain 404 page into PUBLIC."""
+    today = datetime.now().strftime("%Y-%m-%d")
+    sm = ['<?xml version="1.0" encoding="UTF-8"?>',
+          '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">']
+    for u in urls:
+        sm.append(f"  <url><loc>{CANONICAL}{u}</loc><lastmod>{today}</lastmod></url>")
+    sm.append("</urlset>")
+    open(os.path.join(PUBLIC, "sitemap.xml"), "w", encoding="utf-8").write("\n".join(sm))
+
+    open(os.path.join(PUBLIC, "robots.txt"), "w", encoding="utf-8").write(
+        f"User-agent: *\nAllow: /\nSitemap: {CANONICAL}/sitemap.xml\n")
+
+    redirects = [
+        # one canonical host: www -> apex
+        "https://www.dougmcarthur.net/* https://dougmcarthur.net/:splat 301",
+        # dead WordPress URL shapes -> closest live equivalent
+        "/category/* /news/ 301",
+        "/tag/* /news/ 301",
+        "/author/* / 301",
+        "/feed /news/ 301",
+        "/feed/* /news/ 301",
+        "/*/feed /news/ 301",
+        "/*/feed/* /news/ 301",
+    ]
+    for year in range(2008, 2027):
+        redirects.append(f"/{year}/* /news/ 301")   # date archives
+    open(os.path.join(PUBLIC, "_redirects"), "w", encoding="utf-8").write(
+        "\n".join(redirects) + "\n")
+
+    notfound = base("Page not found",
+                    '<article class="page"><h1>Page not found</h1>'
+                    '<p>That link doesn\'t exist anymore. Try the '
+                    '<a href="/">homepage</a> or the <a href="/news/">news archive</a>.</p>'
+                    "</article>", path="/404.html")
+    open(os.path.join(PUBLIC, "404.html"), "w", encoding="utf-8").write(notfound)
 def build():
     posts, pages = [], []
     shutil.copytree("assets", PUBLIC + "/assets", dirs_exist_ok=True)
     shutil.copytree("admin_src", PUBLIC + "/admin", dirs_exist_ok=True)
+    shutil.copyfile("home.html", PUBLIC + "/index.html")  # hand-built homepage template
     for fn in sorted(os.listdir(os.path.join(CONTENT, "posts"))):
         if fn.endswith(".md"):
             meta, body = parse_md(os.path.join(CONTENT, "posts", fn))
@@ -194,7 +248,8 @@ def build():
   <p class="back"><a href="/news/">← All news</a></p>
 </article>"""
         open(os.path.join(d, "index.html"), "w", encoding="utf-8").write(
-            base(meta.get("title", ""), inner, active="/news/", desc=excerpt_of(body)))
+            base(meta.get("title", ""), inner, active="/news/", desc=excerpt_of(body),
+                 path=f"/{slug}/", og_type="article"))
 
     # news index
     items = []
@@ -207,7 +262,7 @@ def build():
     news_inner = "<h1>News</h1>\n" + "\n".join(items)
     os.makedirs(os.path.join(PUBLIC, "news"), exist_ok=True)
     open(os.path.join(PUBLIC, "news", "index.html"), "w", encoding="utf-8").write(
-        base("News", news_inner, active="/news/"))
+        base("News", news_inner, active="/news/", path="/news/"))
 
     # pages
     for meta, body in pages:
@@ -220,9 +275,16 @@ def build():
 </article>"""
         active = f"/{slug}/" if any(h == f"/{slug}/" for _, h in NAV) else "/"
         open(os.path.join(d, "index.html"), "w", encoding="utf-8").write(
-            base(meta.get("title", ""), inner, active=active, desc=excerpt_of(body)))
+            base(meta.get("title", ""), inner, active=active, desc=excerpt_of(body),
+                 path=f"/{slug}/"))
 
     print(f"built {len(posts)} posts, {len(pages)} pages, news index")
+
+    # seo files: every public URL (home is hand-built but always present)
+    urls = ["/", "/news/"]
+    urls += [f"/{m['slug']}/" for m, _ in posts]
+    urls += [f"/{m['slug']}/" for m, _ in pages]
+    write_seo_files(urls)
 
 if __name__ == "__main__":
     build()
