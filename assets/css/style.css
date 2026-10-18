@@ -221,7 +221,6 @@ article.page .entry p { max-width: 68ch; }
 /* ---------- footer ---------- */
 .site-footer { background: var(--header-bg); color: #b9c6c0; margin-top: 56px; }
 .footer-inner { text-align: center; padding: 44px 20px 34px; }
-.footer-blurb { font-size: 1.05rem; color: #dfe7e2; margin-bottom: 14px; }
 .social { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; margin: 0; padding: 0; }
 .social a {
   color: #dfe7e2; text-decoration: none; display: inline-flex; align-items: center; justify-content: center;
