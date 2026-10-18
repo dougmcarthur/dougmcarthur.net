@@ -100,7 +100,15 @@ a:hover { color: var(--accent); }
 .btn-outline:hover { background: rgba(255,255,255,.14); }
 
 /* ---------- sections & cards ---------- */
-main.wrap { padding-bottom: 24px; }
+main.wrap { padding-top: clamp(28px, 5vw, 56px); padding-bottom: 24px; }
+/* ---------- page titles: larger, with real breathing room ---------- */
+article.page > h1,
+main > h1 {
+  font-size: clamp(2.5rem, 2rem + 3vw, 3.6rem);
+  line-height: 1.1;
+  letter-spacing: -.02em;
+  margin: 0 0 .55em;
+}
 section.block { padding: clamp(36px, 6vw, 60px) 0 8px; }
 section.block h2.section-title {
   font-size: clamp(1.45rem, 1.2rem + 1.2vw, 1.85rem);
