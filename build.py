@@ -172,7 +172,10 @@ def base(title, body_html, active="/", desc="", path="/", og_type="website"):
 def excerpt_of(html_text, n=180):
     t = re.sub(r"<[^>]+>", " ", html_text)
     t = htmlmod.unescape(re.sub(r"\s+", " ", t)).strip()
-    return t[:n].rstrip() + ("…" if len(t) > n else "")
+    if len(t) <= n:
+        return t
+    cut = t[:n].rsplit(" ", 1)[0]  # break at a word boundary, not mid-word
+    return cut + "…"
 
 def fmt_date(d):
     try:
