@@ -231,6 +231,8 @@ article.page .entry p { max-width: 68ch; }
 }
 .contact-form .form-msg.ok { color: var(--accent-dark); }
 .contact-form .form-msg.err { color: #b3261e; }
+/* honeypot field: hidden from humans, visible to bots */
+.contact-form .hp { position: absolute; left: -9999px; }
 
 /* ---------- footer ---------- */
 .site-footer { background: var(--header-bg); color: #b9c6c0; margin-top: 56px; }
