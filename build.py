@@ -22,7 +22,7 @@ CANONICAL = "https://dougmcarthur.net"
 
 # Bump this whenever assets/css/style.css changes so browsers fetch the new
 # file instead of a stale cached copy.
-CSS_VERSION = "20261018f"
+CSS_VERSION = "20261018g"
 
 NAV = [
     ("Home", "/"),
@@ -126,7 +126,9 @@ def base(title, body_html, active="/", desc="", path="/", og_type="website"):
 <meta property="og:site_name" content="Doug McArthur">
 <meta property="og:type" content="{og_type}">
 <meta property="og:title" content="{t_esc}">
-<meta property="og:url" content="{canon}">"""
+<meta property="og:url" content="{canon}">
+<meta property="og:image" content="https://dougmcarthur.net/assets/media/og-card.jpg">
+<meta name="twitter:card" content="summary_large_image">"""
     if d_esc:
         seo_tags += f'\n<meta property="og:description" content="{d_esc}">'
     return f"""<!DOCTYPE html>
