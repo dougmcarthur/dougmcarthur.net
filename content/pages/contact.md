@@ -13,7 +13,7 @@ slug: contact
   <input id="cf-email" type="email" name="email" required autocomplete="email">
   <label for="cf-message">Message</label>
   <textarea id="cf-message" name="message" required></textarea>
-  <input type="text" name="company" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px">
+  <input type="text" name="company" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true">
   <div id="ts-contact"></div>
   <p><button class="btn" type="submit">Send message</button></p>
   <p class="form-msg" aria-live="polite"></p>
