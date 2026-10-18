@@ -22,7 +22,7 @@ CANONICAL = "https://dougmcarthur.net"
 
 # Bump this whenever assets/css/style.css changes so browsers fetch the new
 # file instead of a stale cached copy.
-CSS_VERSION = "20261018d"
+CSS_VERSION = "20261018e"
 
 NAV = [
     ("Home", "/"),
