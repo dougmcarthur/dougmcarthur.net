@@ -109,3 +109,26 @@ document.addEventListener("DOMContentLoaded", () => {
     btn.setAttribute("aria-expanded", open ? "true" : "false");
   });
 });
+
+/* Scroll reveals: fade/slide in as elements enter the viewport */
+document.addEventListener("DOMContentLoaded", () => {
+  document.documentElement.classList.add("js");
+  if (!("IntersectionObserver" in window)) return;
+  const io = new IntersectionObserver(
+    (entries) => {
+      for (const e of entries) {
+        if (e.isIntersecting) {
+          e.target.classList.add("visible");
+          io.unobserve(e.target);
+        }
+      }
+    },
+    { threshold: 0.1, rootMargin: "0px 0px -6% 0px" }
+  );
+  document
+    .querySelectorAll(".card, .news-item, .newsletter, .embed")
+    .forEach((el) => {
+      el.classList.add("reveal");
+      io.observe(el);
+    });
+});
