@@ -85,8 +85,6 @@ a:hover { color: var(--accent); }
 }
 .hero::before { content: ""; position: absolute; inset: 0; background: linear-gradient(rgba(18,24,22,.68), rgba(18,24,22,.55)); }
 .hero > * { position: relative; }
-.hero-signup { margin-top: 26px; }
-.hero-signup-note { margin: 10px 0 0; font-size: .88rem; color: #b9c6bf; }
 
 /* ---------- buttons ---------- */
 .btn {
@@ -224,14 +222,19 @@ article.page .entry p { max-width: 68ch; }
 .site-footer { background: var(--header-bg); color: #b9c6c0; margin-top: 56px; }
 .footer-inner { text-align: center; padding: 44px 20px 34px; }
 .footer-blurb { font-size: 1.05rem; color: #dfe7e2; margin-bottom: 14px; }
-.site-footer .social { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; margin: 0 0 20px; padding: 0; }
-.site-footer .social a {
+.social { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; margin: 0; padding: 0; }
+.social a {
   color: #dfe7e2; text-decoration: none; display: inline-flex; align-items: center; justify-content: center;
   width: 44px; height: 44px; border-radius: 50%;
   transition: color .18s ease, background .18s ease, transform .18s ease;
 }
-.site-footer .social a svg { width: 22px; height: 22px; display: block; }
-.site-footer .social a:hover { color: #fff; background: rgba(255,255,255,.08); transform: translateY(-2px); }
+.social a svg { width: 22px; height: 22px; display: block; }
+.social a:hover { color: #fff; background: rgba(255,255,255,.08); transform: translateY(-2px); }
+.site-footer .social { margin-bottom: 20px; }
+/* social icons on the dark hero photo */
+.hero-social { margin-top: 24px; }
+.hero-social a { color: rgba(255,255,255,.88); }
+.hero-social a:hover { color: #fff; background: rgba(255,255,255,.14); }
 .copy { font-size: .82rem; color: #8fa099; margin: 0; }
 
 /* ---------- accessibility ---------- */
