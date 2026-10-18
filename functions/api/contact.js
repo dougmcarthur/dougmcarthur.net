@@ -85,6 +85,10 @@ export async function onRequestPost(context) {
     );
   }
   const to = context.env.CONTACT_TO || "doug@dougmcarthur.net";
+  // Show the sender's name in the From display name so it's visible in the
+  // inbox. The address stays noreply@ (verified domain); replies go to the
+  // sender via reply_to. Sanitize the name against header injection.
+  const safeName = name.replace(/["<>\r\n]/g, "").trim().slice(0, 60) || "Website visitor";
   const res = await fetch("https://api.resend.com/emails", {
     method: "POST",
     headers: {
@@ -92,10 +96,10 @@ export async function onRequestPost(context) {
       "Content-Type": "application/json",
     },
     body: JSON.stringify({
-      from: "Website contact <noreply@dougmcarthur.net>",
+      from: `${safeName} (dougmcarthur.net) <noreply@dougmcarthur.net>`,
       to: [to],
-      reply_to: `${name} <${email}>`,
-      subject: `Website contact from ${name}`,
+      reply_to: `${safeName} <${email}>`,
+      subject: `Website contact from ${safeName}`,
       text: `From: ${name} <${email}>\n\n${message}`,
     }),
   });
