@@ -22,7 +22,7 @@ CANONICAL = "https://dougmcarthur.net"
 
 # Bump this whenever assets/css/style.css changes so browsers fetch the new
 # file instead of a stale cached copy.
-CSS_VERSION = "20261018g"
+CSS_VERSION = "20261018h"
 
 NAV = [
     ("Home", "/"),
@@ -142,7 +142,7 @@ def base(title, body_html, active="/", desc="", path="/", og_type="website"):
 <link rel="stylesheet" href="/assets/css/style.css?v={CSS_VERSION}">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500..700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="icon" href="/assets/media/favicon.svg" type="image/svg+xml">
 </head>
 <body>
