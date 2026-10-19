@@ -215,6 +215,13 @@ def write_seo_files(urls):
         "/feed/* /news/ 301",
         "/*/feed /news/ 301",
         "/*/feed/* /news/ 301",
+        # old MailPoet page -> homepage hero signup
+        "/mailing-list / 301",
+        "/mailing-list/ / 301",
+        # old WP media URLs -> new assets dir (preserves external image links)
+        "/wp-content/uploads/:year/:month/:file /assets/media/:file 301",
+        # old WP archive pagination -> single news page
+        "/news/page/* /news/ 301",
     ]
     for year in range(2008, 2027):
         redirects.append(f"/{year}/* /news/ 301")   # date archives
