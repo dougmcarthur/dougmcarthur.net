@@ -1,5 +1,5 @@
 ---
-title: New Music Night at The Osborne Taphouse, November 19
+title: New Music Night at The Osborne Taphouse, Nov 19
 date: 2026-10-31
 slug: new-music-night-osborne-taphouse-nov-19
 ---
